@@ -1,0 +1,39 @@
+---
+- name: Configurer les hôtes Docker
+  hosts: all
+  user: root
+  tags: 
+    - setup
+  roles:
+    - configure_hosts
+
+- name: Déployer Jenkins 
+  hosts: jenkins-virtualbox
+  remote_user: root
+  tags: jenkins
+  roles:
+    - role: configure_jenkins
+
+- name: Déployer le sonar
+  hosts: sonar-virtualbox
+  remote_user: vagrant
+  become: true
+  tags: sonar
+  roles:
+    - role: configure_sonar
+
+- name: Déployer le registre
+  hosts: registry-virtualbox
+  remote_user: vagrant
+  become: true
+  tags: registry
+  roles:
+    - role: configure_registry
+
+- name: Déployer gitlab
+  hosts: gitlab-virtualbox
+  remote_user: vagrant
+  become: true
+  tags: gitlab
+  roles:
+    - role: configure_gitlab
